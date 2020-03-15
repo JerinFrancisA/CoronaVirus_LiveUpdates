@@ -37,8 +37,9 @@ class _IndiaPageState extends State<IndiaPage> {
         ),
         body: Center(
           child: Text(
-            'To be updated soon',
+            'To be updated soon !!',
             style: kBigText,
+            textAlign: TextAlign.center,
           ),
         ),
       ),

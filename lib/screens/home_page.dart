@@ -93,6 +93,7 @@ class _HomePageState extends State<HomePage> {
                 child: Text(
                   'PRESS REFRESH BUTTON',
                   style: kBigText,
+                  textAlign: TextAlign.center,
                 ),
               )
             : Center(
@@ -321,11 +322,21 @@ class _HomePageState extends State<HomePage> {
             ),
             child: ListView(
               children: <Widget>[
-                DrawerHeader(
-                  child: Text(
-                    'COVID-19',
-                    style: kBigText,
-                    textAlign: TextAlign.right,
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        'https://www.cdc.gov/coronavirus/2019-ncov/images/home-banner.jpg',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: DrawerHeader(
+                    child: Text(
+                      'COVID-19',
+                      style: kBigText,
+                      textAlign: TextAlign.right,
+                    ),
                   ),
                 ),
                 GestureDetector(
