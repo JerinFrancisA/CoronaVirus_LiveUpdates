@@ -1,3 +1,4 @@
+import 'package:corona_virus/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:corona_virus/screens/home_page.dart';
 
@@ -9,9 +10,9 @@ class Main extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Corona Virus Updates',
-      theme: ThemeData(
+      theme: ThemeData.dark().copyWith(
         appBarTheme: AppBarTheme(
-          color: Colors.black,
+          color: kAppBarColor,
           actionsIconTheme: IconThemeData(
             color: Colors.white,
             opacity: 0.8,
@@ -19,8 +20,9 @@ class Main extends StatelessWidget {
           ),
           elevation: 3.0,
         ),
-        scaffoldBackgroundColor: COlors. 
+        scaffoldBackgroundColor: kScaffoldBackgroundColor,
       ),
+      themeMode: ThemeMode.dark,
       home: HomePage(),
     );
   }

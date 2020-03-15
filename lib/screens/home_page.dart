@@ -39,53 +39,207 @@ class _HomePageState extends State<HomePage> {
     getData();
   }
 
+  List<bool> isSelected = List.filled(5, false);
+
   @override
   Widget build(BuildContext context) {
-    getData();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
             'Corona Virus Live Updates',
+            style: kAppBarText,
           ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+              ),
+              onPressed: () {
+                setState(() {
+                  for (int i = 0; i < isSelected.length; i++) {
+                    isSelected[i] = !isSelected[i];
+                  }
+                  if (cases.length == 0) getData();
+                });
+              },
+            ),
+          ],
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    deaths,
-                    style: kBigText,
-                  ),
-                  Text(
-                    recovered,
-                    style: kBigText,
-                  ),
-                ],
-              ),
-              Center(
-                child: Text(
-                  cases,
-                  style: kBigText,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: kAppBarColor,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Deaths',
+                                style: kText,
+                              ),
+                              AnimatedDefaultTextStyle(
+                                duration: Duration(milliseconds: 200),
+                                style: isSelected[0] ? kSelectedText : kBigText,
+                                child: Text(
+                                  deaths,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: kAppBarColor,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Recovered',
+                                style: kText,
+                              ),
+                              AnimatedDefaultTextStyle(
+                                duration: Duration(milliseconds: 200),
+                                style: isSelected[1] ? kSelectedText : kBigText,
+                                child: Text(
+                                  recovered,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    activeCases,
-                    style: kBigText,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: kAppBarColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Cases',
+                          style: kText,
+                        ),
+                        AnimatedDefaultTextStyle(
+                          duration: Duration(milliseconds: 200),
+                          style: isSelected[2]
+                              ? kSelectedText.copyWith(fontSize: 72.0)
+                              : kBigText.copyWith(fontSize: 42.0),
+                          child: Text(
+                            cases,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    closedCases,
-                    style: kBigText,
-                  ),
-                ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: kAppBarColor,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Active Cases',
+                                style: kText,
+                              ),
+                              AnimatedDefaultTextStyle(
+                                duration: Duration(milliseconds: 200),
+                                style: isSelected[3] ? kSelectedText : kBigText,
+                                child: Text(
+                                  activeCases,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: kAppBarColor,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Closed Cases',
+                                style: kText,
+                              ),
+                              AnimatedDefaultTextStyle(
+                                duration: Duration(milliseconds: 200),
+                                style: isSelected[4] ? kSelectedText : kBigText,
+                                child: Text(
+                                  closedCases,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              for (int i = 0; i < isSelected.length; i++) {
+                isSelected[i] = !isSelected[i];
+              }
+              if (cases.length == 0) getData();
+            });
+          },
+          child: Icon(
+            Icons.refresh,
           ),
         ),
       ),
