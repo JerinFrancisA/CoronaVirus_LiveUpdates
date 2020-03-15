@@ -7,6 +7,14 @@ const kBigText = TextStyle(
   letterSpacing: 4.0,
 );
 
+const kNewsText = TextStyle(
+  fontFamily: 'Righteous',
+  fontSize: 18.0,
+  fontWeight: FontWeight.w200,
+  letterSpacing: 7.0,
+  wordSpacing: 5.0,
+);
+
 const kSelectedText = TextStyle(
   fontFamily: 'Righteous',
   fontSize: 36.0,
@@ -29,5 +37,12 @@ const kAppBarText = TextStyle(
   letterSpacing: 1.6,
 );
 
+const kBottomNavBarText = TextStyle(
+  fontFamily: 'Righteous',
+  fontSize: 12.0,
+  fontWeight: FontWeight.w100,
+  letterSpacing: 2.0,
+);
+
 const kAppBarColor = Color(0xFF0A0708);
-const kScaffoldBackgroundColor = Color(0xFF171A1E);
+const kContainerColor = Color(0xFF171A1E);

@@ -1,3 +1,7 @@
+import 'package:corona_virus/screens/india_page.dart';
+import 'package:corona_virus/screens/main_tab.dart';
+import 'package:corona_virus/screens/news.dart';
+import 'package:corona_virus/screens/twitter.dart';
 import 'package:corona_virus/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:corona_virus/screens/home_page.dart';
@@ -20,10 +24,18 @@ class Main extends StatelessWidget {
           ),
           elevation: 3.0,
         ),
-        scaffoldBackgroundColor: kScaffoldBackgroundColor,
+        scaffoldBackgroundColor: kAppBarColor,
       ),
       themeMode: ThemeMode.dark,
-      home: HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        HomePage.routeName: (context) => HomePage(),
+        MainTab.routeName: (context) => MainTab(),
+        IndiaPage.routeName: (context) => IndiaPage(),
+        Twitter.routeName: (context) => Twitter(),
+        News.routeName: (context) => News(),
+      },
     );
   }
 }
