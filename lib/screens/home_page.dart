@@ -14,12 +14,13 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-String cases = '';
-String deaths = '';
-String recovered = '';
-String activeCases = '';
-String closedCases = '';
-String indiaTotal = '';
+String cases = '-';
+String deaths = '-';
+String recovered = '-';
+String activeCases = '-';
+String closedCases = '-';
+String indiaTotal = '-';
+String newsText = '-';
 List<bool> isSelected = List.filled(5, true);
 
 Future getData() async {
@@ -37,10 +38,20 @@ Future getData() async {
   print(document.getElementsByClassName('number-table-main')[1].text);
 }
 
+Future getData2() async {
+  var client = Client();
+  Response response = await client.get(
+      'https://timesofindia.indiatimes.com/india/coronavirus-live-news-updates-total-coronavirus-cases-in-india-rise-to-83/liveblog/74620072.cms');
+  var document = parse(response.body);
+  newsText = document.getElementsByClassName('_3MQQ_')[0].text;
+  print(newsText);
+}
+
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     getData();
+    getData2();
     super.initState();
   }
 
@@ -69,160 +80,95 @@ class _HomePageState extends State<HomePage> {
                   for (int i = 0; i < isSelected.length; i++) {
                     isSelected[i] = !isSelected[i];
                   }
-                  if (cases.length == 0) getData();
+                  if (cases.length == 1) getData();
+                  if (newsText.length == 1) getData2();
+                  // getData();
                 });
               },
             ),
           ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Expanded(
-                flex: 3,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: cases == '-'
+            ? Center(
+                child: Text(
+                  'PRESS REFRESH BUTTON',
+                  style: kBigText,
+                ),
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: kContainerColor,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Deaths',
-                                style: kText,
-                              ),
-                              AnimatedDefaultTextStyle(
-                                duration: Duration(milliseconds: 200),
-                                style: isSelected[0] ? kSelectedText : kBigText,
-                                child: Text(
-                                  deaths,
+                      flex: 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: kContainerColor,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Deaths',
+                                      style: kText,
+                                    ),
+                                    AnimatedDefaultTextStyle(
+                                      duration: Duration(milliseconds: 200),
+                                      style: isSelected[0]
+                                          ? kSelectedText
+                                          : kBigText,
+                                      child: Text(
+                                        deaths,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: kContainerColor,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Recovered',
-                                style: kText,
-                              ),
-                              AnimatedDefaultTextStyle(
-                                duration: Duration(milliseconds: 200),
-                                style: isSelected[1] ? kSelectedText : kBigText,
-                                child: Text(
-                                  recovered,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: kContainerColor,
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Cases',
-                          style: kText,
-                        ),
-                        AnimatedDefaultTextStyle(
-                          duration: Duration(milliseconds: 200),
-                          style: isSelected[2]
-                              ? kSelectedText.copyWith(fontSize: 72.0)
-                              : kBigText.copyWith(fontSize: 42.0),
-                          child: Text(
-                            cases,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: kContainerColor,
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            'News',
-                            style: kText,
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 12.0, right: 12.0),
-                            child: Marquee(
-                              text:
-                                  'Corona gets the better of China. Reports suggest that the condition will only get worse.',
-                              style: kNewsText,
-                              scrollAxis: Axis.horizontal,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              blankSpace: 20.0,
-                              velocity: 140.0,
-                              startPadding: 20.0,
-                              accelerationCurve: Curves.easeIn,
-                              decelerationCurve: Curves.easeInOut,
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: kContainerColor,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Recovered',
+                                      style: kText,
+                                    ),
+                                    AnimatedDefaultTextStyle(
+                                      duration: Duration(milliseconds: 200),
+                                      style: isSelected[1]
+                                          ? kSelectedText
+                                          : kBigText,
+                                      child: Text(
+                                        recovered,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
                     Expanded(
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -235,14 +181,16 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Active Cases',
+                                'Cases',
                                 style: kText,
                               ),
                               AnimatedDefaultTextStyle(
                                 duration: Duration(milliseconds: 200),
-                                style: isSelected[3] ? kSelectedText : kBigText,
+                                style: isSelected[2]
+                                    ? kSelectedText.copyWith(fontSize: 52.0)
+                                    : kBigText.copyWith(fontSize: 42.0),
                                 child: Text(
-                                  activeCases,
+                                  cases,
                                 ),
                               ),
                             ],
@@ -251,6 +199,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -260,30 +209,111 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(4.0),
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Text(
-                                'Closed Cases',
-                                style: kText,
-                              ),
-                              AnimatedDefaultTextStyle(
-                                duration: Duration(milliseconds: 200),
-                                style: isSelected[4] ? kSelectedText : kBigText,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
                                 child: Text(
-                                  closedCases,
+                                  'News',
+                                  style: kText,
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 12.0, right: 12.0),
+                                  child: Marquee(
+                                    text: newsText == '-'
+                                        ? 'Corona gets the better of China. Reports suggest that the condition will only get worse.'
+                                        : newsText,
+                                    style: kNewsText,
+                                    scrollAxis: Axis.horizontal,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    blankSpace: 20.0,
+                                    velocity: 140.0,
+                                    startPadding: 20.0,
+                                    accelerationCurve: Curves.easeIn,
+                                    decelerationCurve: Curves.easeInOut,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: kContainerColor,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Active Cases',
+                                      style: kText,
+                                    ),
+                                    AnimatedDefaultTextStyle(
+                                      duration: Duration(milliseconds: 200),
+                                      style: isSelected[3]
+                                          ? kSelectedText
+                                          : kBigText,
+                                      child: Text(
+                                        activeCases,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: kContainerColor,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Closed Cases',
+                                      style: kText,
+                                    ),
+                                    AnimatedDefaultTextStyle(
+                                      duration: Duration(milliseconds: 200),
+                                      style: isSelected[4]
+                                          ? kSelectedText
+                                          : kBigText,
+                                      child: Text(
+                                        closedCases,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
         drawer: Drawer(
           child: Container(
             decoration: BoxDecoration(

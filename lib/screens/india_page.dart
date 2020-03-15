@@ -35,6 +35,12 @@ class _IndiaPageState extends State<IndiaPage> {
             ),
           ],
         ),
+        body: Center(
+          child: Text(
+            'To be updated soon',
+            style: kBigText,
+          ),
+        ),
       ),
     );
   }
