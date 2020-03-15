@@ -1,6 +1,11 @@
-# corona_virus
+# Corona Virus Live Updates App
 
 A new Flutter project.
+
+## About
+
+- Web Scraping data from websites using dart's html parser package
+- Live updates for Corona Virus
 
 ## Getting Started
 
